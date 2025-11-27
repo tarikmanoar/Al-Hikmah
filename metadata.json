@@ -1,0 +1,7 @@
+{
+  "name": "Al-Hikmah: Islamic History Scholar",
+  "description": "A serene, AI-powered scholar providing authentic knowledge on Islamic history, Prophets, and Sahaba using Gemini Pro and Live Audio.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
