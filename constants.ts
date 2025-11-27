@@ -82,7 +82,7 @@ export const STARTERS: StarterChip[] = [
 ];
 
 export const MODELS = {
-  CHAT: "gemini-3-pro-preview",
+  CHAT: "gemini-2.5-pro",
   SEARCH: "gemini-2.5-flash", // Used for search grounding
   IMAGE: "gemini-2.5-flash-image",
   LIVE: "gemini-2.5-flash-native-audio-preview-09-2025"

@@ -1,20 +1,18 @@
 
 import React, { useState } from 'react';
-import { BookOpen, MessageCircle, Image as ImageIcon, Mic, LogIn, LogOut, User, Settings } from 'lucide-react';
+import { BookOpen, MessageCircle, Image as ImageIcon, Mic, LogIn, LogOut, User } from 'lucide-react';
 import ChatMode from './components/ChatMode';
 import LiveMode from './components/LiveMode';
 import ImageMode from './components/ImageMode';
 import { AppMode } from './types';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import FirebaseConfigModal from './components/FirebaseConfigModal';
 
 function MainApp() {
   const [mode, setMode] = useState<AppMode>(AppMode.CHAT);
-  const { user, signInWithGoogle, signOut, loading, showConfigModal, setShowConfigModal } = useAuth();
+  const { user, signInWithGoogle, signOut, loading } = useAuth();
 
   return (
     <div className="flex h-screen w-full bg-[#e8ecef] p-3 md:p-4 gap-4 font-sans text-stone-900">
-      <FirebaseConfigModal isOpen={showConfigModal} onClose={() => setShowConfigModal(false)} />
 
       {/* Floating Sidebar Navigation */}
       <aside className="w-20 lg:w-72 bg-emerald-950 text-white flex flex-col items-center lg:items-start rounded-[2.5rem] shadow-2xl shadow-emerald-950/20 z-20 py-8 transition-all duration-300">
@@ -75,7 +73,12 @@ function MainApp() {
               <div className="flex flex-col gap-2">
                  <div className="flex items-center justify-center lg:justify-start gap-3 p-2 bg-emerald-900/50 rounded-2xl">
                     {user.photoURL ? (
-                        <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-amber-400/50" />
+                        <img 
+                          src={user.photoURL} 
+                          alt="User" 
+                          className="w-10 h-10 rounded-full border-2 border-amber-400/50" 
+                          referrerPolicy="no-referrer"
+                        />
                     ) : (
                         <div className="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-emerald-200"><User size={20} /></div>
                     )}
@@ -101,12 +104,6 @@ function MainApp() {
                 <span className="hidden lg:block">Sign In</span>
               </button>
            )}
-           </div>
-           
-           <div className="mt-6 hidden lg:flex justify-center gap-2">
-             <button onClick={() => setShowConfigModal(true)} className="text-emerald-600 hover:text-emerald-400 transition-colors p-2 rounded-full hover:bg-emerald-900/30">
-                <Settings size={16} />
-             </button>
            </div>
         </div>
       </aside>
