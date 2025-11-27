@@ -98,6 +98,35 @@ export const ChatStorage = {
     }
   },
 
+  syncLocalSessionsToFirestore: async (user: User) => {
+    try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (!stored) return;
+        
+        const localSessions: ChatSession[] = JSON.parse(stored);
+        if (localSessions.length === 0) return;
+
+        // Upload each local session to Firestore
+        const batchPromises = localSessions.map(async (session) => {
+            const docRef = doc(db, "users", user.uid, "sessions", session.id);
+            // Use setDoc with merge to avoid overwriting if it somehow exists
+            return setDoc(docRef, session, { merge: true });
+        });
+
+        await Promise.all(batchPromises);
+
+        // Optional: Clear local storage after successful sync
+        // localStorage.removeItem(LOCAL_STORAGE_KEY); 
+        // Keeping it might be safer, or we can clear it to avoid confusion. 
+        // Let's clear it to avoid "Guest" sessions reappearing if they log out.
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        
+        console.log("Synced local sessions to Firestore");
+    } catch (e) {
+        console.error("Error syncing local sessions to Firestore", e);
+    }
+  },
+
   createSession: (): ChatSession => {
     return {
       id: Date.now().toString(),

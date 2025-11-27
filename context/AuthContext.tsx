@@ -1,7 +1,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
+import { User, signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
+import { ChatStorage } from '../services/chatStorage';
 
 interface AuthContextType {
   user: User | null;
@@ -17,6 +18,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Ensure persistence is set to local (survives browser close)
+    setPersistence(auth, browserLocalPersistence).catch((error) => {
+        console.error("Error setting auth persistence:", error);
+    });
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
@@ -26,7 +32,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      if (result.user) {
+        // Sync any local guest sessions to the user's Firestore
+        await ChatStorage.syncLocalSessionsToFirestore(result.user);
+      }
     } catch (error: any) {
       console.error("Error signing in with Google", error);
       throw error;
