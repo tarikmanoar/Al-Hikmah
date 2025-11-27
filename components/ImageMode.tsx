@@ -42,29 +42,29 @@ const ImageMode: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-stone-50 p-6 overflow-y-auto rounded-[2.5rem]">
+    <div className="h-full bg-stone-50 dark:bg-stone-900 p-4 md:p-6 overflow-y-auto rounded-[2.5rem] transition-colors duration-300">
       <div className="max-w-6xl mx-auto space-y-10 py-8">
         <div className="text-center space-y-3">
-            <h2 className="text-4xl font-serif text-emerald-950">Restoration & Edits</h2>
-            <p className="text-stone-500 font-medium">Upload historical images or art to enhance, edit, or modify.</p>
+            <h2 className="text-4xl font-serif text-emerald-950 dark:text-emerald-100">Restoration & Edits</h2>
+            <p className="text-stone-500 dark:text-stone-400 font-medium">Upload historical images or art to enhance, edit, or modify.</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 items-start">
             {/* Input Section */}
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-stone-200/50 border border-white space-y-8 h-full flex flex-col">
+            <div className="bg-white dark:bg-stone-800 p-6 md:p-8 rounded-[2.5rem] shadow-xl shadow-stone-200/50 dark:shadow-none border border-white dark:border-stone-700 space-y-8 h-full flex flex-col">
                 <div 
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-4 border-dashed rounded-[2rem] h-80 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group ${previewUrl ? 'border-emerald-200 bg-emerald-50/30' : 'border-stone-200 hover:border-emerald-300 hover:bg-stone-50'}`}
+                    className={`border-4 border-dashed rounded-[2rem] h-64 md:h-80 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 group ${previewUrl ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50/30 dark:bg-emerald-900/10' : 'border-stone-200 dark:border-stone-600 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-stone-50 dark:hover:bg-stone-700'}`}
                 >
                     {previewUrl ? (
                         <img src={previewUrl} alt="Preview" className="h-full w-full object-contain rounded-3xl p-2" />
                     ) : (
                         <>
-                            <div className="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center text-stone-400 group-hover:scale-110 group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-all mb-4">
+                            <div className="w-16 h-16 bg-stone-100 dark:bg-stone-700 rounded-full flex items-center justify-center text-stone-400 dark:text-stone-500 group-hover:scale-110 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all mb-4">
                                 <Upload size={28} />
                             </div>
-                            <span className="text-stone-600 font-bold text-lg">Upload an Image</span>
-                            <span className="text-sm text-stone-400 mt-2 font-medium">PNG, JPG (Max 5MB)</span>
+                            <span className="text-stone-600 dark:text-stone-300 font-bold text-lg">Upload an Image</span>
+                            <span className="text-sm text-stone-400 dark:text-stone-500 mt-2 font-medium">PNG, JPG (Max 5MB)</span>
                         </>
                     )}
                     <input 
@@ -77,10 +77,10 @@ const ImageMode: React.FC = () => {
                 </div>
 
                 <div className="space-y-3 flex-1">
-                    <label className="text-sm font-bold text-stone-700 uppercase tracking-wide ml-2">Magic Instruction</label>
+                    <label className="text-sm font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wide ml-2">Magic Instruction</label>
                     <div className="relative">
                         <textarea 
-                            className="w-full border-0 bg-stone-100 rounded-3xl p-5 text-stone-800 placeholder-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:bg-white transition-all resize-none shadow-inner"
+                            className="w-full border-0 bg-stone-100 dark:bg-stone-900 rounded-3xl p-5 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:bg-white dark:focus:bg-stone-800 transition-all resize-none shadow-inner dark:shadow-none"
                             rows={4}
                             placeholder="e.g., 'Restore this old photo', 'Make it look like a watercolor painting', 'Remove the person in the background'"
                             value={prompt}
@@ -95,7 +95,7 @@ const ImageMode: React.FC = () => {
                     disabled={!selectedFile || !prompt || isProcessing}
                     className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-bold text-lg transition-all transform ${
                         !selectedFile || !prompt || isProcessing
-                        ? 'bg-stone-100 text-stone-300 cursor-not-allowed'
+                        ? 'bg-stone-100 dark:bg-stone-700 text-stone-300 dark:text-stone-500 cursor-not-allowed'
                         : 'bg-emerald-800 text-white hover:bg-emerald-700 shadow-xl hover:shadow-emerald-900/20 hover:-translate-y-1'
                     }`}
                 >
@@ -114,24 +114,24 @@ const ImageMode: React.FC = () => {
             </div>
 
             {/* Output Section */}
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-stone-200/50 border border-white min-h-[600px] flex flex-col">
-                <h3 className="text-xl font-bold text-stone-800 mb-6 flex items-center gap-3 px-2">
-                    <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+            <div className="bg-white dark:bg-stone-800 p-6 md:p-8 rounded-[2.5rem] shadow-xl shadow-stone-200/50 dark:shadow-none border border-white dark:border-stone-700 min-h-[400px] md:min-h-[600px] flex flex-col">
+                <h3 className="text-xl font-bold text-stone-800 dark:text-stone-100 mb-6 flex items-center gap-3 px-2">
+                    <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                         <ImageIcon size={18} />
                     </div>
                     Result
                 </h3>
                 
-                <div className="flex-1 bg-stone-50 rounded-[2rem] flex items-center justify-center relative overflow-hidden border border-stone-100 group">
+                <div className="flex-1 bg-stone-50 dark:bg-stone-900 rounded-[2rem] flex items-center justify-center relative overflow-hidden border border-stone-100 dark:border-stone-700 group">
                     {resultImage ? (
                         <img src={resultImage} alt="Generated" className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105" />
                     ) : (
-                        <div className="text-center text-stone-400">
+                        <div className="text-center text-stone-400 dark:text-stone-500">
                             {isProcessing ? (
                                 <div className="flex flex-col items-center gap-4">
                                     <div className="relative">
-                                        <div className="w-20 h-20 bg-emerald-100 rounded-full animate-ping opacity-75 absolute"></div>
-                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center relative shadow-sm border border-emerald-100">
+                                        <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full animate-ping opacity-75 absolute"></div>
+                                        <div className="w-20 h-20 bg-white dark:bg-stone-800 rounded-full flex items-center justify-center relative shadow-sm border border-emerald-100 dark:border-emerald-900">
                                             <Sparkles className="text-emerald-500 animate-spin" size={32} />
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@ const ImageMode: React.FC = () => {
                                 </div>
                             ) : (
                                 <div className="flex flex-col items-center gap-4 opacity-50">
-                                    <div className="w-20 h-20 bg-stone-200 rounded-3xl rotate-12"></div>
+                                    <div className="w-20 h-20 bg-stone-200 dark:bg-stone-700 rounded-3xl rotate-12"></div>
                                     <p className="font-medium">Edited image will appear here</p>
                                 </div>
                             )}

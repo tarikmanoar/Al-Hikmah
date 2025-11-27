@@ -4,7 +4,7 @@ import { MODELS, SYSTEM_INSTRUCTION_SCHOLAR } from "../constants";
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Standard Scholar Chat
-export async function* streamScholarChat(history: { role: string; parts: { text: string }[] }[], newMessage: string) {
+export async function* streamScholarChat(history: { role: string; parts: { text: string }[] }[], newMessage: string, language: string = 'English') {
   const ai = getAI();
   
   // Transform history for the SDK
@@ -13,11 +13,15 @@ export async function* streamScholarChat(history: { role: string; parts: { text:
     parts: msg.parts
   }));
 
+  const languageInstruction = language === 'Bangla' 
+    ? "\nIMPORTANT: You must respond in Bangla (Bengali) language." 
+    : "";
+
   const chat = ai.chats.create({
     model: MODELS.CHAT,
     history: formattedHistory,
     config: {
-      systemInstruction: SYSTEM_INSTRUCTION_SCHOLAR,
+      systemInstruction: SYSTEM_INSTRUCTION_SCHOLAR + languageInstruction,
       temperature: 0.7,
     },
   });
